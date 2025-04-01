@@ -1,12 +1,9 @@
 <template>
-  <div class="VCard">
+  <NCard :title="title">
     <NSpin :show="show">
-      <NCard :title="title">
-        <slot></slot>
-      </NCard>
+      <slot></slot>
     </NSpin>
-
-  </div>
+  </NCard>
 </template>
 
 <script setup>

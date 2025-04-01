@@ -20,5 +20,5 @@ import { ref } from 'vue';
 import { NButton } from 'naive-ui';
 import VCard from '~/components/VCard.vue'
 
-const show = ref(true)
+const show = ref(false)
 </script>
