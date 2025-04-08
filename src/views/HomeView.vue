@@ -6,9 +6,7 @@
           <VCard title="World" :show="show">
             Hello
           </VCard>
-          <NButton @click="show = !show">
-            tesst
-          </NButton>
+          <LoginParticle></LoginParticle>
         </div>
       </div>
     </div>
@@ -17,8 +15,8 @@
 
 <script setup>
 import { ref } from 'vue';
-import { NButton } from 'naive-ui';
 import VCard from '~/components/VCard.vue'
+import LoginParticle from '~/components/LoginParticle.vue'
 
 const show = ref(false)
 </script>
