@@ -9,6 +9,7 @@ export const useUsersStore = defineStore('users', () => {
       login: 'admin',
       password: '65e84be33532fb784c48129675f9eff3a682b27168c0ea744b2cf58ee02337c5',
     }, //qwerty
+    //65e84be33532fb784c48129675f9eff3a682b27168c0ea744b2cf58ee02337c5
     {
       id: 2,
       name: 'Readactor Ignat',
@@ -65,13 +66,21 @@ export const useUsersStore = defineStore('users', () => {
     }, //  ccccccc
   ])
 
-  const checkUsers = (login, password) => {
-    for (let user in users) {
-      if (user.login == login && user.password == password) {
-        return true
-      }
-    }
-    return false
+  async function getSHA256Hash(str) {
+    if (!str) return ''
+    const buf = new TextEncoder().encode(str)
+    const digest = await crypto.subtle.digest('SHA-256', buf)
+    return Array.from(new Uint8Array(digest))
+      .map((b) => b.toString(16).padStart(2, '0'))
+      .join('')
   }
-  return { users, checkUsers }
+
+  const checkUser = (login, password) => {
+    const hash = getSHA256Hash(password)
+    for (let user in Object.keys(users.value)) {
+      if (users.value[user].login == login && users.value[user].password == hash) return true
+    }
+  }
+
+  return { users, checkUser }
 })

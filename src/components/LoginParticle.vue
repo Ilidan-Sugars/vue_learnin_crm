@@ -1,41 +1,29 @@
-<template>
-  <div class="LoginParticle">
-    {{ Hash }}
-    <NInput v-model:value="login" placeholder="Login"></NInput>
-    <NInput v-model:value="password" @update:value="computeHash" placeholder="Password"></NInput>
-    <NButton @Click="signIn"> Test </NButton>
-  </div>
-</template>
+  <template>
+    <div class="LoginParticle">
+      {{ Hash }}
+      <NInput v-model:value="login" placeholder="Login"></NInput>
+      <NInput v-model:value="password" placeholder="Password"></NInput>
+      <NButton @Click="signIn"> Test </NButton>
+    </div>
+  </template>
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { NInput, NButton } from 'naive-ui';
 import { useUsersStore } from '~/stores/users'
 
 const password = ref('')
 const login = ref('')
-const Hash = ref('')
-const users = useUsersStore()
+const usersStore = useUsersStore()
 
-async function getSHA256Hash(str) {
-  if (!str) return '';
+const router = useRouter()
 
-  const buf = new TextEncoder().encode(str);
-  const digest = await crypto.subtle.digest('SHA-256', buf);
-  return Array.from(new Uint8Array(digest))
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
-}
 
-async function computeHash() {
-  Hash.value = await getSHA256Hash(password.value);
-}
-
-const signIn = () => {
-  console.log(users.checkUsers(login.value, Hash.value))
-  for (let key of Object.keys(users.users)) {
-    var capital = users.users[key];
-    console.log(key, capital.login == login.value)
+const signIn = async () => {
+  if (usersStore.checkUser(login.value, password.value)) {
+    console.log(1111)
+    router.push('/Posts')
   }
 }
 </script>

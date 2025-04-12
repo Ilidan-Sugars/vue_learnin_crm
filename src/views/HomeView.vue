@@ -18,5 +18,6 @@ import { ref } from 'vue';
 import VCard from '~/components/VCard.vue'
 import LoginParticle from '~/components/LoginParticle.vue'
 
+
 const show = ref(false)
 </script>
